@@ -10,6 +10,7 @@ const db = require("./utility/database")
 //CUSTOM MIDDLEWARE IMPORTS
 const authRoutes = require("./router/auth")
 const createRoutes = require("./router/create")
+const getRoutes = require("./router/getRoute")
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 
@@ -20,6 +21,7 @@ app.use(helmet())
 //CUSTOM MIDDLEWARES
 app.use("/auth",authRoutes)
 app.use("/new",createRoutes)
+app.use("/get",getRoutes)
 //SET UP SERVER
  db(process.env.DBHost).then(_=>{
  server.listen(4000,()=>{
