@@ -4,6 +4,10 @@ const mongoose = require("mongoose")
          type:Number,
          default:0
      },
+     profit:{
+         type:Number,
+         default:0
+     },
      userId:{
          type:String,
          default:null
