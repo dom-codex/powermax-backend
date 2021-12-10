@@ -24,7 +24,7 @@ app.use("/new",createRoutes)
 app.use("/get",getRoutes)
 //SET UP SERVER
  db(process.env.DBHost).then(_=>{
- server.listen(4000,()=>{
+ server.listen(process.env.PORT,()=>{
     console.log("server live")
 })    
  })
