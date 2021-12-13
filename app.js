@@ -6,6 +6,7 @@ const http = require("http")
 const app = express()
 const server = http.createServer(app)
 const db = require("./utility/database")
+const createAdminIfNotExist = require("./ADMIN/utils/createAdminOnFirstLaunch")
 //SETUP DEFAULT MIDDLEWARES
 //CUSTOM MIDDLEWARE IMPORTS
 const authRoutes = require("./router/auth")
@@ -23,7 +24,8 @@ app.use("/auth",authRoutes)
 app.use("/new",createRoutes)
 app.use("/get",getRoutes)
 //SET UP SERVER
- db(process.env.DBHost).then(_=>{
+ db(process.env.DBHost).then(async()=>{
+    await createAdminIfNotExist()
  server.listen(process.env.PORT,()=>{
     console.log("server live")
 })    
