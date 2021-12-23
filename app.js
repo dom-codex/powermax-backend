@@ -32,9 +32,9 @@ app.use("/admin/auth",adminAuthRoutes)
 app.use("/admin/get",adminGetRoutes)
 app.use("/admin/update",adminUpdateRoutes)
 //SET UP SERVER
- db(process.env.DBHost).then(async()=>{
+ db(process.env.prodDb).then(async()=>{
     await createAdminIfNotExist()
- server.listen(4000,()=>{
+ server.listen(process.env.PORT,()=>{
     console.log("server live")
 })    
  })
