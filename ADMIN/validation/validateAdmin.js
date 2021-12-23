@@ -1,6 +1,7 @@
 const adminDb=require("../models/admin")
 const {ObjectId} = require("mongoose").Types
 const validateAdmin = async(adminId)=>{
+    console.log(adminId)
     const admin  = await adminDb.findOne({
         _id:ObjectId(adminId)
     })
@@ -12,6 +13,7 @@ const validateAdmin = async(adminId)=>{
 exports.validateAdmin = async(adminId,res,next)=>{
     try{
         const isAdminValid = await validateAdmin(adminId)
+    
         if(isAdminValid){
             return next()
         }else{

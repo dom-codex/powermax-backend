@@ -12,7 +12,7 @@ exports.addProfit = async(req,res,next)=>{
             })
         }
         //INCREMENT PROFIT
-        deposit.profit = deposit.profit + amount
+        deposit.profit = deposit.profit + parseInt(amount)
         await deposit.save()
         res.status(200).json({
             message:"DONE"

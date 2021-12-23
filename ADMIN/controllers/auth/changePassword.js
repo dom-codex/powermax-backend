@@ -4,6 +4,7 @@ const {ObjectId} = require("mongoose").Types
 exports.changePassword = async(req,res,next)=>{
     try{
         const {adminId,newPassword,oldPassword} = req.body
+        console.log(req.body)
         //FIND ADMIN
         const admin = await adminDb.findById({
             _id:ObjectId(adminId)

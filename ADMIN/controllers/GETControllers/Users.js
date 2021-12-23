@@ -5,14 +5,20 @@ const {ObjectId} = require("mongoose").Types
 exports.getUsers = async(req,res,next)=>{
     try{
         const {page} = req.query
-        const users = await userDb.find().limit(50).skip((page-1)*50)
+        const users = await userDb.find()
         if(users.length <= 0){
             return res.status(200).json({
                 users:[]
             })
         }
-        
-        const newUserList = await processUsersList(users)
+        //GET USER IDS
+        const ids = await getUserIds(users)
+        //FIND DEPOSITS
+        const deposits = await depositDb.find({
+            userId:{$in:ids}
+        })
+
+        const newUserList = await processUsersList(users,deposits)
         return res.status(200).json({
             users:newUserList
         })
@@ -47,6 +53,7 @@ exports.getUser = async(req,res,next)=>{
         res.status(200).json({
             name:user._doc.name,
             email:user._doc.email,
+            deposit:slip.amount,
             profit:slip.profit?slip.profit:0,
             withdrawals:pslip.length>0?pslip:[]
         })
@@ -57,11 +64,16 @@ exports.getUser = async(req,res,next)=>{
         })
     }
 }
-
-const processUsersList = async(list)=>{
+const getUserIds = async(users)=>{
+    return users.map(user=>user._doc._id)
+}
+const processUsersList = async(list,slips)=>{
     return list.map(user=>{
+        //FIND USER SLIP
+        const slip = slips.find((slip)=>slip._doc.userId.toString() == user._doc._id.toString())
         return {
-            
+            deposit:slip==null?0:slip.amount,
+            profit:slip==null?0:slip.profit,
             userId:user._id.toString(),
             name:user._doc.name,
             email:user._doc.email
