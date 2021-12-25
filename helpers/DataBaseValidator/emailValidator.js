@@ -13,7 +13,7 @@ exports.ValidateUserEmail = async(req,res,next)=>{
             return next()
         }
         //ELSE SEND RESPONSE THAT ACCOUNT ALREADY EXISTS
-        res.status(400).json({
+        res.status(200).json({
             message:"this email is already associated with an account"
         })
     }catch(e){
