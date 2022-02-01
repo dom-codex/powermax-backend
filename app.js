@@ -16,6 +16,7 @@ const getRoutes = require("./router/getRoute")
 const adminAuthRoutes = require("./ADMIN/routes/auth")
 const adminGetRoutes = require("./ADMIN/routes/getRoute")
 const adminUpdateRoutes = require("./ADMIN/routes/updateRoute")
+const adminCreateRoutes = require("./ADMIN/routes/createRoutes")
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 
@@ -35,8 +36,9 @@ app.use("/get",getRoutes)
 app.use("/admin/auth",adminAuthRoutes)
 app.use("/admin/get",adminGetRoutes)
 app.use("/admin/update",adminUpdateRoutes)
+app.use("/admin/new",adminCreateRoutes)
 //SET UP SERVER
- db(process.env.prodDb).then(async()=>{
+ db(process.env.DbHost).then(async()=>{
     await createAdminIfNotExist()
  server.listen(process.env.PORT,()=>{
     console.log("server live")

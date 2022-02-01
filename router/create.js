@@ -3,6 +3,8 @@ const {validateDepositAmount} = require("../helpers/inputValidators/userRequests
 const {validateUser} = require("../helpers/DataBaseValidator/userValidator")
 const {createNewDeposit} = require("../controllers/userControllers/POSTControllers/deposit")
 const {requestWithdrawal} = require("../controllers/userControllers/POSTControllers/withdraw")
+const { createTransaction } = require("../controllers/userControllers/POSTControllers/transaction")
 router.post("/deposit",validateUser,validateDepositAmount,createNewDeposit)
-router.post("/withdrawal",validateUser,validateDepositAmount,requestWithdrawal)
+router.post("/withdrawal",validateUser,requestWithdrawal)
+router.post("/transaction",validateUser,createTransaction)
 module.exports = router

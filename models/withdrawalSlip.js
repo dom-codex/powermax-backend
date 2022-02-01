@@ -1,15 +1,20 @@
 const mongoose = require("mongoose")
 const slipSchema = new mongoose.Schema({
+    name:{
+        type:String,
+        required:true
+    },
+    email:{
+        type:String,
+        required:true
+    },
     amount:{
         type:Number,
-        default:0
+        required:true
     },
-    userId:{
-        type:String
-    },
-    approved:{
-        type:Boolean,
-        default:false
+    status:{
+        type:String,
+        default:"pending"
     }
 })
 module.exports = mongoose.model("WithdrawalSlip",slipSchema)

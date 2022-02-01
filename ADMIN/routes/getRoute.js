@@ -1,6 +1,12 @@
 const router = require("express").Router()
+const { getServices } = require("../controllers/GETControllers/services")
+const { getTransactions } = require("../controllers/GETControllers/transactions")
 const { getUsers,getUser } = require("../controllers/GETControllers/Users")
+const { getWithdrawalRequest } = require("../controllers/GETControllers/withdrawal")
 const { validateAdmin } = require("../validation/validateAdmin")
 router.get("/users", (req, res, next) => validateAdmin(req.query.adminId, res, next), getUsers)
 router.get("/user",(req, res, next) => validateAdmin(req.query.adminId, res, next),getUser)
+router.get("/transactions",(req, res, next) => validateAdmin(req.query.adminId, res, next),getTransactions)
+router.get("/withdrawals",(req, res, next) => validateAdmin(req.query.adminId, res, next),getWithdrawalRequest)
+router.get("/services",(req, res, next) => validateAdmin(req.query.adminId, res, next),getServices)
 module.exports = router

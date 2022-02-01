@@ -21,6 +21,7 @@ exports.loginAdmin = async(req,res,next)=>{
         }
         //COMFIRM LOGIN
         res.status(200).json({
+            message:"logged in",
             adminId:admin._id.toString(),
             name:admin.name,
             email:admin.email

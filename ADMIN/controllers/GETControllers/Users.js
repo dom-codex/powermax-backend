@@ -2,6 +2,7 @@ const userDb = require("../../../models/user")
 const depositDb = require("../../../models/deposit")
 const withdrawalDb = require("../../../models/withdrawalSlip")
 const {ObjectId} = require("mongoose").Types
+const transactionDb = require("../../../models/transaction")
 exports.getUsers = async(req,res,next)=>{
     try{
         const {page} = req.query
@@ -11,16 +12,17 @@ exports.getUsers = async(req,res,next)=>{
                 users:[]
             })
         }
+
         //GET USER IDS
-        const ids = await getUserIds(users)
+        /*const ids = await getUserIds(users)
         //FIND DEPOSITS
         const deposits = await depositDb.find({
             userId:{$in:ids}
-        })
+        })*/
 
-        const newUserList = await processUsersList(users,deposits)
+     //   const newUserList = await processUsersList(users,deposits)
         return res.status(200).json({
-            users:newUserList
+            users:users
         })
     }catch(e){
         console.log(e)
@@ -41,21 +43,17 @@ exports.getUser = async(req,res,next)=>{
                 message:"user not found"
             })
         }
-        //GET SLIP
-        const slip = await depositDb.findOne({
-            userId:userId
-        })
-        //Withdrawals
-        const wSlip = await withdrawalDb.find({
-            userId:userId
-        })
-        const pslip = await processWithdrawalList(wSlip)
+    //GET TRANSACTIONS
+    const transactions = await transactionDb.find({
+        email:user.email
+    })
         res.status(200).json({
             name:user._doc.name,
             email:user._doc.email,
-            deposit:slip.amount,
-            profit:slip.profit?slip.profit:0,
-            withdrawals:pslip.length>0?pslip:[]
+            phone:user.phone,
+            profit:user.profit,
+            transactions:transactions.length?transactions:[]
+            
         })
     }catch(e){
         console.log(e)
